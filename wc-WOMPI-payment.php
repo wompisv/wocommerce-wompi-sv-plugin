@@ -3,9 +3,9 @@ class wompi_Payment_Gateway extends WC_Payment_Gateway {
   function __construct() {
   global $woocommerce;
     $this->id = "wompi_payment";
-    $this->method_title = __( "WOMPI PAYMENT GATEWAY", 'wompi-payment' );
-    $this->method_description = __( "WOMPI Payment Gateway Plug-in for WooCommerce", 'wompi-payment' );
-    $this->title = __( "WOMPI Payment Gateway", 'wompi-payment' );
+    $this->method_title = __( "WOMPI - El Salvador", 'wompi-payment' );
+    $this->method_description = __( "WOMPI - El Salvador Payment Gateway Plug-in para WooCommerce", 'wompi-payment' );
+    $this->title = __( "WOMPI - El Salvador", 'wompi-payment' );
     $this->icon = apply_filters( 'woocommerce_wompi_icon', $woocommerce->plugin_url() . '/../WOMPI-Woocommerce-Plugin-master/assets/images/wompi.png' );
     $this->has_fields = true;
     $this->init_form_fields();
@@ -258,8 +258,6 @@ if ($err) {
         "esMontoEditable" => $this->api_edit_monto,
         "esCantidadEditable" => $this->api_edit_monto,
         "urlWebhook" => home_url() . '/?wc-api=WC_webhook_Wompi',
-       // "urlWebhook" => home_url() . '/?wc-api=WC_Gateway_Wompi',
-       // "urlWebhook" => 'https://fb1443ec412e0ac2475a2e5119e3cff8.m.pipedream.net',
         "urlRedirect" => home_url() . '/?wc-api=WC_Gateway_Wompi',
         "api_notifica" => $this->api_edit_monto
       );
