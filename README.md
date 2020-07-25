@@ -22,13 +22,17 @@ REQUISITOS
 
 == Installation ==
 
-1. Descarga el plugin
+1. Descarga el archivo ZIP con la versión más reciente del plugin [aquí](https://github.com/wompisv/wocommerce-wompi-sv-plugin)
+	-También puedes buscar en la tienda de plugins de Wordpress el plugin de Wompi – El Salvador.
 2. Ingresar el sitio administrativo de tu WordPress.
 3. Ingresar a opción de menú de Plugins / Añadir Nuevo / Subir Plugin.
-4. Buscar el plugin en formato .zip descargado en tu computadora y súbelo como cualquier otro archívo.
-5. Después de instalar el .zip podras verlo en el listado de plugins instalados, podras activarlo.
+4. Buscar el plugin en formato .zip descargado en tu computadora y súbelo como cualquier otro archivo.
+5. Después de instalar el .zip podrás verlo en el listado de plugins instalados, podrás activarlo.
 6. Para configurar el plugin tendrás que ingresar a: Woocommerce / Ajustes / Pagos / Wompi - El Salvador
-7. Configure el plugin ingresando su App ID y su API Secret obtenidos de las configuraciones generales del aplictivo en tu cuenta Wompi.
+7. Dirígete a tu cuenta de Wompi y copia el App ID y el API Secret obtenidos de las configuraciones generales del aplicativo en tu cuenta Wompi
+8. Regresa a tu sitio administrativo de Wordpress y pegá tu App ID y API Secret en la parte de la configuración de tu pasarela de pago Wompi - El Salvador.
+9. Termina de configurar los demás campos como desees que funcione tu pasarela de pago.
+10. ¡Comienza a hacer transacciones!
 
 
 == Frequently Asked Questions ==
