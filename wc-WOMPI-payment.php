@@ -239,35 +239,29 @@ class wompi_Payment_Gateway extends WC_Payment_Gateway
 
         $client_id = $this->client_id;
         $client_secret = $this->client_secret;
+        $postBody = array(
+            'grant_type' => 'client_credentials',
+            'client_id' => $client_id,
+            'client_secret' => $client_secret,
+            'audience' => 'wompi_api',
+        );
 
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://id.wompi.sv/connect/token",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "grant_type=client_credentials&client_id=" . $client_id . "&client_secret=" . $client_secret . "&audience=wompi_api",
-            CURLOPT_HTTPHEADER => array(
-                "content-type: application/x-www-form-urlencoded"
-            ) ,
+        $response = wp_remote_post('https://id.wompi.sv/connect/token', array(
+            'method' => 'POST',
+            'body' => http_build_query($postBody) ,
+            'timeout' => 90,
+            'sslverify' => false,
         ));
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-        if ($err)
+        if (is_wp_error($response))
         {
-            echo "cURL Error #:" . $err;
+            $error_message = $response->get_error_message();
+            echo "error: " . $error_message;
         }
         else
         {
-
-            $arrayResult = json_decode($response);
+            $body = wp_remote_retrieve_body($response);
+            $arrayResult = json_decode($body);
             $token = $arrayResult->{'access_token'};
 
             $order = wc_get_order($order_id);
@@ -291,35 +285,31 @@ class wompi_Payment_Gateway extends WC_Payment_Gateway
                 "formaPago" => $formaPago,
                 "configuracion" => $configuracion
             );
-            $postdata = json_encode($payload_data);
-            $curl2 = curl_init();
-            $arrev = array(
-                CURLOPT_URL => "https://api.wompi.sv/EnlacePago",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => $postdata,
-                CURLOPT_HTTPHEADER => array(
-                    "authorization: Bearer " . $token,
-                    "content-type: application/json"
-                )
+            $args = array(
+                'body' => wp_json_encode($payload_data) ,
+                'timeout' => '90',
+                'blocking' => true,
+                'headers' => array(
+                    "Authorization" => 'Bearer ' . $token,
+                    "content-type" => 'application/json'
+                ) ,
             );
-
-            curl_setopt_array($curl2, $arrev);
-
-            $response = curl_exec($curl2);
-            $err = curl_error($curl2);
-
-            curl_close($curl2);
-            $arrayResult = json_decode($response);
-            $urlEnlace = $arrayResult->{'urlEnlace'};
-            return array(
-                'result' => 'success',
-                'redirect' => $urlEnlace
-            );
+            $response = wp_remote_post('https://api.wompi.sv/EnlacePago', $args);
+            if (is_wp_error($response))
+            {
+                $error_message = $response->get_error_message();
+                echo "error: " . $error_message;
+            }
+            else
+            {
+                $body = wp_remote_retrieve_body($response);
+                $arrayResult = json_decode($body);
+                $urlEnlace = $arrayResult->{'urlEnlace'};
+                return array(
+                    'result' => 'success',
+                    'redirect' => $urlEnlace
+                );
+            }
         }
 
     }
