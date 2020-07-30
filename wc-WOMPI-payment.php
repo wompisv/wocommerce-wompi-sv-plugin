@@ -280,7 +280,7 @@ class wompi_Payment_Gateway extends WC_Payment_Gateway
             );
             $payload_data = array(
                 "identificadorEnlaceComercio" => $order_id,
-                "monto" => $customer_order->order_total,
+                "monto" => method_exists($customer_order, 'get_total') ? $customer_order->get_total() : $customer_order->order_total,
                 "nombreProducto" => $this->TextoWompi,
                 "formaPago" => $formaPago,
                 "configuracion" => $configuracion
