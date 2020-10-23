@@ -1,5 +1,5 @@
 === Payment Integration Wompi - El Salvador ===
-Contributors:
+Contributors: infinitechsv
 Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, wompi, nequi, pse, El Salvador
 Requires at least: 5.3
 Tested up to: 5.4
@@ -34,6 +34,15 @@ REQUISITOS
 9. Termina de configurar los demás campos como desees que funcione tu pasarela de pago.
 10. ¡Comienza a hacer transacciones!
 
+== Screenshots ==
+
+1. Pantalla de configuración
+
+
+== Changelog ==
+
+= 1.0.0 =
+* Release Inicial
 
 == Frequently Asked Questions ==
 
