@@ -75,28 +75,40 @@ class wompi_Payment_Gateway extends WC_Payment_Gateway
         update_post_meta($order_id, '_wc_order_wompi_cadena', $entityBody);
         write_log('entra en el validate_wompi_webhook ********** HASH: ' . $hash . ' *****');
 
-        if ($sig == $hash)
+        $TotalComerce = method_exists($customer_order, 'get_total') ? $customer_order->get_total() : $customer_order->order_total;
+        $TotalWompi = $arrayResult->{'Monto'};
+        if ($TotalComerce == $TotalWompi)
         {
-            write_log('entra en el validate_wompi_webhook ********** HASH VALIDO  *****');
-            update_post_meta($order_id, '_wc_order_wompi_StatusHash', $sig . ' valido:');
-            $customer_order->add_order_note(__('wompi pago completado WH.', 'wompi-payment'));
+            if ($sig == $hash)
+            {
+                write_log('entra en el validate_wompi_webhook ********** HASH VALIDO  *****');
+                update_post_meta($order_id, '_wc_order_wompi_StatusHash', $sig . ' valido:');
+                $customer_order->add_order_note(__('wompi pago completado WH.', 'wompi-payment'));
 
-            $customer_order->payment_complete();
-            update_post_meta($order_id, '_wc_order_wompi_transactionid', $arrayResult->{'idTransaccion'}, true);
-            $woocommerce
-                ->cart
-                ->empty_cart();
-            header('HTTP/1.1 200 OK');
+                $customer_order->payment_complete();
+                update_post_meta($order_id, '_wc_order_wompi_transactionid', $arrayResult->{'idTransaccion'}, true);
+                $woocommerce
+                    ->cart
+                    ->empty_cart();
+                header('HTTP/1.1 200 OK');
+            }
+            else
+            {
+                write_log('entra en el validate_wompi_webhook ********** HASH NO VALIDO  *****');
+
+                update_post_meta($order_id, '_wc_order_wompi_StatusHash', $sig . ' No valido:');
+                $customer_order->add_order_note(__('wompi hash no valido WH.', 'wompi-payment'));
+                header('HTTP/1.1 200 OK');
+            }
         }
         else
         {
-            write_log('entra en el validate_wompi_webhook ********** HASH NO VALIDO  *****');
+            write_log('entra en el validate_wompi_webhook ********** Los montos no coinciden *****');
 
             update_post_meta($order_id, '_wc_order_wompi_StatusHash', $sig . ' No valido:');
-            $customer_order->add_order_note(__('wompi hash no valido WH.', 'wompi-payment'));
+            $customer_order->add_order_note(__('wompi Los montos no coinciden.', 'wompi-payment'));
             header('HTTP/1.1 200 OK');
         }
-
     }
     public function validate_wompi_return()
     {
@@ -111,35 +123,46 @@ class wompi_Payment_Gateway extends WC_Payment_Gateway
         $sig = hash_hmac('sha256', $cadena, $this->client_secret);
 
         $authcode = get_post_meta($order_id, '_wc_order_wompi_authcode', true);
-        if ($authcode == null)
+        $TotalComerce = method_exists($customer_order, 'get_total') ? $customer_order->get_total() : $customer_order->order_total;
+        if ($TotalComerce == $monto)
         {
 
-            update_post_meta($order_id, '_wc_order_wompi_Hash', $hash);
-            update_post_meta($order_id, '_wc_order_wompi_cadena', $cadena);
-
-            if ($sig == $hash)
+            if ($authcode == null)
             {
-                update_post_meta($order_id, '_wc_order_wompi_StatusHash', $sig . ' valido:');
-                $customer_order->add_order_note(__('wompi pago completado.', 'wompi-payment'));
 
-                $customer_order->payment_complete();
-                update_post_meta($order_id, '_wc_order_wompi_transactionid', $idTransaccion, true);
-                $woocommerce
-                    ->cart
-                    ->empty_cart();
-                wp_redirect(html_entity_decode($customer_order->get_checkout_order_received_url()));
+                update_post_meta($order_id, '_wc_order_wompi_Hash', $hash);
+                update_post_meta($order_id, '_wc_order_wompi_cadena', $cadena);
 
+                if ($sig == $hash)
+                {
+                    update_post_meta($order_id, '_wc_order_wompi_StatusHash', $sig . ' valido:');
+                    $customer_order->add_order_note(__('wompi pago completado.', 'wompi-payment'));
+
+                    $customer_order->payment_complete();
+                    update_post_meta($order_id, '_wc_order_wompi_transactionid', $idTransaccion, true);
+                    $woocommerce
+                        ->cart
+                        ->empty_cart();
+                    wp_redirect(html_entity_decode($customer_order->get_checkout_order_received_url()));
+
+                }
+                else
+                {
+                    update_post_meta($order_id, '_wc_order_wompi_StatusHash', $sig . ' No valido:');
+                    $customer_order->add_order_note(__('wompi hash no valido.', 'wompi-payment'));
+                    home_url();
+                }
             }
             else
             {
-                update_post_meta($order_id, '_wc_order_wompi_StatusHash', $sig . ' No valido:');
-                $customer_order->add_order_note(__('wompi hash no valido.', 'wompi-payment'));
-                home_url();
+                wp_redirect(html_entity_decode($customer_order->get_checkout_order_received_url()));
             }
         }
         else
         {
-            wp_redirect(html_entity_decode($customer_order->get_checkout_order_received_url()));
+            update_post_meta($order_id, '_wc_order_wompi_StatusHash', $sig . ' No valido:');
+            $customer_order->add_order_note(__('wompi los montos no coinciden.', 'wompi-payment'));
+            home_url();
         }
     }
     public function init_form_fields()
