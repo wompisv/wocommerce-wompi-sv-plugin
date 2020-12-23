@@ -4,7 +4,7 @@ Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, s
 Requires at least: 5.3
 Tested up to: 5.4
 Requires PHP: 7.1
-Stable tag: 2.0.0
+Stable tag: 1.2.1
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -41,7 +41,11 @@ REQUISITOS
 
 == Changelog ==
 
-= 1.0.0 =
+= 1.2.1 =
+* Se agrega funcionalidad para permitir pagos en cuotas
+* También agregamos una validación por si el aplicativo no permite pago en puntos, no se habilita la opción
+
+= 1.0 =
 * Release Inicial
 
 == Frequently Asked Questions ==
