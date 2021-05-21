@@ -516,3 +516,20 @@ function show_WOMPI_info($order)
     echo '<p><strong>' . __('WOMPI Transaction Id') . ':</strong> ' . get_post_meta($order_id, '_wc_order_wompi_transactionid', true) . '</p>';
 }
 
+if (!function_exists('write_log'))
+        {
+            function write_log($log)
+            {
+                if (true === WP_DEBUG)
+                {
+                    if (is_array($log) || is_object($log))
+                    {
+                        error_log(print_r($log, true));
+                    }
+                    else
+                    {
+                        error_log($log);
+                    }
+                }
+            }
+        }
