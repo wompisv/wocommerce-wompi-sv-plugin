@@ -2,7 +2,7 @@
 Contributors: infinitechsv
 Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, wompi, nequi, pse, El Salvador
 Requires at least: 5.3
-Tested up to: 5.4
+Tested up to: 5.7.2
 Requires PHP: 7.1
 Stable tag: 1.2.1
 License: GNU General Public License v3.0
