@@ -40,11 +40,6 @@ REQUISITOS
 
 
 == Changelog ==
-= 1.2.3 =
-* FixBug Imagen
-
-= 1.2.2 =
-* Se corrige error de hash no válido.
 
 = 1.2.1 =
 * Se agrega funcionalidad para permitir pagos en cuotas

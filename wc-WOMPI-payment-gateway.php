@@ -3,7 +3,7 @@
 Plugin Name: WOMPI - El Salvador
 Plugin URI: https://github.com/wompisv/wocommerce-wompi-sv-plugin
 Description: Plugin WooCommerce para integrar la pasarela de pago Wompi El Salvador
-Version: 1.2.1
+Version: 1.2.3
 Author: WOMPI-El Salvador 
 Author URI: https://wompi.sv
 */
