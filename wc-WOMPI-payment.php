@@ -398,6 +398,15 @@ class wompi_Payment_Gateway extends WC_Payment_Gateway
                 'desc_tip' => __('Permitir cobrar con puntos Agrícola', 'wompi-payment') ,
                 'default' => 'true'
             ) ,
+            'api_permitirPagoEnBitcoin' => array(
+                'title'   => __( 'Permitir pago con Bitcoin', 'wompi-payment' ),
+                'type'    => 'select',
+                'options' => array(
+                'true' => 'SI',
+                'false' => 'NO'),
+                'desc_tip'  => __( 'Permitir cobrar con Bitcoin', 'wompi-payment' ),
+                'default' => 'true'
+              ),
         );
     }
     public function process_payment($order_id)
@@ -462,7 +471,8 @@ class wompi_Payment_Gateway extends WC_Payment_Gateway
             $formaPago = array(
                 "permitirTarjetaCreditoDebido" => $this->api_permitirTarjetaCreditoDebido,
                 "permitirPagoConPuntoAgricola" => $this->api_permitirPagoConPuntoAgricola,
-                "permitirPagoEnCuotasAgricola" => $api_permitirPagoCuotasRR
+                "permitirPagoEnCuotasAgricola" => $api_permitirPagoCuotasRR,
+                "permitirPagoEnBitcoin" => $this->api_permitirPagoEnBitcoin
             );
             $payload_data = array(
                 "identificadorEnlaceComercio" => $order_id,
