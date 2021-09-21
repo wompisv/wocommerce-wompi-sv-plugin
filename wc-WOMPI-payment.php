@@ -405,7 +405,7 @@ class wompi_Payment_Gateway extends WC_Payment_Gateway
                 'true' => 'SI',
                 'false' => 'NO'),
                 'desc_tip'  => __( 'Permitir cobrar con Bitcoin', 'wompi-payment' ),
-                'default' => 'true'
+                'default' => 'false'
               ),
         );
     }
