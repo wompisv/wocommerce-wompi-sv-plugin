@@ -1,5 +1,4 @@
 === Payment Integration Wompi - El Salvador ===
-Contributors: infinitechsv
 Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, wompi, nequi, pse, El Salvador
 Requires at least: 5.3
 Tested up to: 5.7.2
@@ -66,4 +65,4 @@ El Salvador
 **Contribuye** [Repositorio en github](https://github.com/wompisv/wocommerce-wompi-sv-plugin)
 
 == Credits ==
-*  [www.infinitechsv.com](http://www.infinitechsv.com) [www.bitworks.com.sv](http://www.bitworks.com.sv) 
+*  [www.bitworks.com.sv](http://www.bitworks.com.sv) 
